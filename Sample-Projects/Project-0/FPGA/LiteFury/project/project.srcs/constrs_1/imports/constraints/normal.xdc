@@ -60,6 +60,8 @@ set_property IOSTANDARD LVCMOS33 [get_ports {real_spi_ss}]
 set_property PACKAGE_PIN U21 [get_ports {SPI_0_ss_t}]
 set_property IOSTANDARD LVCMOS33 [get_ports {SPI_0_ss_t}]
 
+set_property PACKAGE_PIN T21 [get_ports {SPI_0_ss_i}]
+set_property IOSTANDARD LVCMOS33 [get_ports {SPI_0_ss_i}]
 
 ###############################################################################
 # Timing Constraints
