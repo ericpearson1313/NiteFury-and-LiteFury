@@ -1,3 +1,14 @@
+# Litefury 
+
+My xilinx Artix-7 dev system for PCIe devlopment. It uses a LiteFury mounted to a raspberry Pi5 with M.2 slot.
+I've incorporated my standard HDMI video output. I've brought up the pcie interface
+without drivers directly accessing via: lspci, setpci, pcimem commands.
+
+![dev_platform](litefury_rpi5_hdmi.jpg)
+
+orginial readme below
+-------------------
+
 # NiteFury and Litefury: Xilinx FPGA development board kit in M.2 form factor
 
 Ever wanted to work with FPGA, and connect to DDR and PCI express without spending a small fortune?
