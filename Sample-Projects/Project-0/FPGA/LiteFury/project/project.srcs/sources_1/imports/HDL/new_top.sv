@@ -252,17 +252,17 @@ module new_top(
 	
 	logic text_ovl;
 	logic [3:0] text_color;
-	//text_overlay i_text
-	//(
-	//	.clk( hdmi_clk  ),
-	//	.reset( reset ),
-	//	.blank( blank ),
-	//	.hsync( hsync ),
-	//	.vsync( vsync ),
-	//	// Overlay output bit for ORing
-	//	.overlay( text_ovl ),
-	//	.color( text_color )
-	//);
+	text_overlay_rom i_text
+	(
+		.clk( hdmi_clk  ),
+		.reset( reset ),
+		.blank( blank ),
+		.hsync( hsync ),
+		.vsync( vsync ),
+		// Overlay output bit for ORing
+		.overlay( text_ovl ),
+		.color( text_color )
+	);
 
 
 	// Overlay Text - Dynamic

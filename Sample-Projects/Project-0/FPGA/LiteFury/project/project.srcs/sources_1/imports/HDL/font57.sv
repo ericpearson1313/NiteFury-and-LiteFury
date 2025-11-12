@@ -72,6 +72,7 @@ module text_overlay
 			
 	// Load the font rom because rom init not supported by 'SC' compact devices
 	reg font_rom [16383:0]; // indexed by ( col[2:0]<<(3+8) + row[2:0]<<8 + char[7:0] ) 
+	
 	always @(posedge flash_clock ) 
 		if( we_font ) font_rom[ waddr[13:0] ] <= flash_data;
 
@@ -129,6 +130,70 @@ module text_overlay
 	assign color = color_reg;
 endmodule
 
+// Overlay but with intitialized roms rather than loading rams from flash
+module text_overlay_rom
+(
+	input clk,
+	input reset,
+	input blank,
+	input hsync,
+	input vsync,
+	// Video outpus
+	output logic overlay,
+	output logic [3:0] color
+);
+
+			
+	// Load the font rom because rom init not supported by 'SC' compact devices
+	reg [0:0] font_rom [16383:0]; // indexed by ( col[2:0]<<(3+8) + row[2:0]<<8 + char[7:0] ) 
+    initial begin
+        $readmemb("font_rom_init.mem", font_rom, 0, 16383);
+    end
+		
+	// Load the overlay text for the screen
+	reg [11:0] text_rom [4095:0]; // indexed by { x[6:0], y[4:0] } giving 30 rows of 128 chars
+	
+	// Generate the timing signals
+	
+	logic [7:0] char_x;
+	logic [7:0] char_y;
+	logic [2:0] cntx6;
+	logic [8:0] ycnt;
+	logic blank_d1;
+
+	always @(posedge clk) begin
+		if( reset ) begin
+			char_x <= 0;
+			cntx6 <= 0;
+			ycnt <= 0;
+			blank_d1 <= 0;
+		end else begin
+			blank_d1 <= blank;
+			cntx6 <= ( blank || cntx6 == 5 ) ? 0 : cntx6 + 1;
+			char_x <= ( blank ) ? 0 : ( cntx6 == 5 ) ? char_x + 1 : char_x;
+			ycnt <= ( vsync ) ? 0 : 
+		        ( blank && !blank_d1 ) ? ycnt + 1 : ycnt;
+		end
+	end
+	
+	// Read and overlay the roms
+	logic [11:0] charcode;
+	logic [3:0] color_reg;
+	logic [2:0] cntx6_del;
+	logic fontout;
+	always @(posedge clk) begin
+		// read char rom
+		charcode[11:0]  <= text_rom[{ ycnt[8:4], char_x[6:0] }];
+		cntx6_del[2:0] <= cntx6[2:0];
+		// Read the font rom
+		fontout <= font_rom[ { cntx6_del[2:0], ycnt[2:0], charcode[7:0] } ];
+		color_reg <= charcode[11:8]; // char color
+	end
+	
+	// Gate overlay to left 128 chars of 30 odd rows 
+	assign overlay = ( !ycnt[3] && !char_x[7] ) ? fontout : 1'b0; // only display even lines and first 128 chars
+	assign color = color_reg;
+endmodule
 
 
 
@@ -255,7 +320,7 @@ assign pel[8][6] = {50'b00100_00000_00000_00000_11111_11111_00000_00000_00000_11
 					for( int pp = 0; pp < 5; pp++ )
 						font_rom[ (pp<<11)+(rr<<8)+code[bb][cc] ] = pel[bb][rr][cc][pp];
 		// Write out the font file - find it in the sim directory
-		$writememb("font_rom_init.txt", font_rom );
+		$writememb("font_rom_init.mem", font_rom );
 	end
 // synthesis translate_on
 
