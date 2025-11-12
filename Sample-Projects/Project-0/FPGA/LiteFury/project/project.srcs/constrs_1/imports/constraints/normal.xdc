@@ -67,9 +67,6 @@ set_property IOSTANDARD LVCMOS33 [get_ports {SPI_0_ss_i}]
 # HDMI
 ###############################################################################
 
-# Designates user_clk to have relaxed clock placement rules 
-set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets user_clk]
-
 set_property PACKAGE_PIN W9  [get_ports {hdmi_d0_p}]
 set_property PACKAGE_PIN Y8  [get_ports {hdmi_d1_p}]
 set_property PACKAGE_PIN V9  [get_ports {hdmi_d2_p}]
@@ -100,7 +97,7 @@ set_property IOSTANDARD LVDS_25 [get_ports {hdmi_d2_n}]
 
 # Input reset is resynchronized within FPGA design as necessary
 set_false_path -from [get_ports pci_reset]
-
+set_false_path -through [get_nets hdmi_reset} -to [get_clocks {hdmi_clk]}
 
 
 ###############################################################################

@@ -116,72 +116,9 @@ module new_top(
     .hdmi_clk5        ( hdmi_clk5        )
     );
     
-    
 
-//   logic clkfbout;
-//   logic clkfbout_buf;
-//   logic clkout0;
-//   logic clkout1;
-//  wire [15:0] do_unused;
-//  wire        drdy_unused;
-//   PLLE2_ADV
-//  #(.BANDWIDTH            ("OPTIMIZED"),
-//    .COMPENSATION         ("ZHOLD"),
-//    .STARTUP_WAIT         ("FALSE"),
-//    .DIVCLK_DIVIDE        (5),
-//    .CLKFBOUT_MULT        (48),
-//    .CLKFBOUT_PHASE       (0.000),
-//    .CLKOUT0_DIVIDE       (30),
-//    .CLKOUT0_PHASE        (0.000),
-//    .CLKOUT0_DUTY_CYCLE   (0.500),
-//    .CLKOUT1_DIVIDE       (6),
-//    .CLKOUT1_PHASE        (0.000),
-//    .CLKOUT1_DUTY_CYCLE   (0.500),
-//    .CLKIN1_PERIOD        (10.000))
-//  plle2_adv_inst
-//    // Output clocks
-//   (
-//    .CLKFBOUT            (clkfbout),
-//    .CLKOUT0             (clkout0),
-//    .CLKOUT1             (clkout1),
-//    .CLKOUT2             (  ),
-//    .CLKOUT3             (  ),
-//    .CLKOUT4             (  ),
-//    .CLKOUT5             (  ),
-//     // Input clock control
-//    .CLKFBIN             (clkfbout_buf),
-//    .CLKIN1              (user_clk ),
-//    .CLKIN2              (1'b0),
-//     // Tied to always select the primary input clock
-//    .CLKINSEL            (1'b1),
-//    // Ports for dynamic reconfiguration
-//    .DADDR               (7'h0),
-//    .DCLK                (1'b0),
-//    .DEN                 (1'b0),
-//    .DI                  (16'h0),
-//    .DO                  (do_unused),
-//    .DRDY                (drdy_unused),
-//    .DWE                 (1'b0),
-//    // Other control and status signals
-//    .LOCKED              (),
-//    .PWRDWN              (1'b0),
-//    .RST                 (pci_reset));
-// 
-//  BUFG clkf_buf   ( .O( clkfbout_buf), .I(clkfbout));  // PLL feedback
-//  BUFG i_hdmi_bufg( .O( hdmi_clk    ), .I(clkout0 ));
-//  BUFG i_hdmi5_buf( .O( hdmi_clk5   ), .I(clkout1 ));
-
-/////////////////////////////////
-	////
-	////       VIDEO
-	////
-	//////////////////////////////////
-	
-	
-	
-	
-	
 	// HDMI reset
+	
 	logic [3:0] hdmi_reg;
 	always @(posedge hdmi_clk) begin
 		hdmi_reg[3:0] <= { hdmi_reg[2:0], hdmi_reset };

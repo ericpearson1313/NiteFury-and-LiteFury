@@ -152,6 +152,9 @@ module text_overlay_rom
 		
 	// Load the overlay text for the screen
 	reg [11:0] text_rom [4095:0]; // indexed by { x[6:0], y[4:0] } giving 30 rows of 128 chars
+    initial begin
+        $readmemb("text_rom_init.mem", text_rom, 0, 4095);
+    end
 	
 	// Generate the timing signals
 	
