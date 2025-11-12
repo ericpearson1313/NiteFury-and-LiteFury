@@ -6,7 +6,14 @@ without drivers directly accessing via: lspci, setpci, pcimem commands.
 
 ![dev_platform](litefury_rpi5_hdmi.jpg)
 
-orginial readme below
+The HDMI was ported from my altera platform. It gives unlimited observability into the raw hardware. For bringup I just
+have color bars with ascii/hex/binary active text overlays. I still have to port over the font rom and overlay ram,
+especially to give the github commit id into the frame (and not affect synthesis results).
+Its is relatively low overhead, with the hdmi and overlay generation hightlighted in the floorplan on the right
+
+![dev_platform](litefury_hdmi.jpg)
+
+# orginial Nitefury readme below
 -------------------
 
 # NiteFury and Litefury: Xilinx FPGA development board kit in M.2 form factor
