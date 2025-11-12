@@ -6,19 +6,15 @@ int main( int argc, char **argv )
 {
 	
 
-	// Read in font rom
+	// Read in font rom, not used, just informative
 	FILE *font_fp;
-	font_fp = fopen( "font_rom_init.txt", "r" );
+	font_fp = fopen( "font_rom_init.mem", "r" );
 	int font[16384];
 	char line[128];
-	printf("Read font rom file\n");
-	for( int ii = 0; ii < 3; ii++ ) // Skip 3 lines
-		while( fgetc( font_fp ) != '\n' );
+	printf("Read font rom mem file\n");
 	for( int ii = 0; ii < 16384; ii++ ) {  
 		fscanf( font_fp, "%1d", &font[ii] );
 	}
-	//for( int ii = 0; ii < 16384; ii++ )   
-	//	printf("%1d", font[ii]);
 	fclose( font_fp );
 	printf("\nfont done\n");
 	for( int bb = 0; bb < 16; bb++ ) 
@@ -98,76 +94,15 @@ int main( int argc, char **argv )
 	printf("\ntext done\n");
 
 	FILE  *mif_fp;
-	mif_fp = fopen( "flash_rom.mif", "w" );
-	printf("Wret MIF file\n");
-	fprintf(mif_fp, "-- 16Kbyte UFM-0 organized as 4K of 32-bit words\n");
-	fprintf(mif_fp, "-- 16Kbyte UFM-0 organized as 4K of 32-bit words\n");
-	 fprintf(mif_fp, "DEPTH = 2048; -- The size of memory in words\n" );
-	 fprintf(mif_fp, "WIDTH = 32; -- The size of data in bits \n" );
-	 fprintf(mif_fp, "ADDRESS_RADIX = HEX; -- The radix for address values \n" );
-	 fprintf(mif_fp, "DATA_RADIX = BIN; -- The radix for data values \n" );
-	 fprintf(mif_fp, "CONTENT -- start of (address : data pairs) \n" );
-	 fprintf(mif_fp, "BEGIN\n" );
-
-	 // write font rom 16Kbit = 512 32-bit words
-	 for( int addr = 0; addr < 512; addr++ ) { // 512x32
-		fprintf(mif_fp, "%03x : ", addr);
-		for( int bit = 0; bit < 32; bit++ ) 
-			fputc( ( font[ (addr<<5) + bit ] == 1 ) ? '1' : '0' , mif_fp);
-		fprintf(mif_fp, ";\n");
+	mif_fp = fopen( "text_rom_init.mem", "w" );
+	 // write text and overlay = 128 * 32 = 4096 words of 12 bits
+	 for( int base = 0; base < 4096; base++ ) {
+		for( int ii = 3; ii >=0; ii-- )
+			fputc( ( color[(base)>>7][(base)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
+		for( int ii = 7; ii >=0; ii-- )
+			fputc( (  text[(base)>>7][(base)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
+		fprintf(mif_fp, "\n");
 	 }
-	 // write text and overlay = 128 * 32 * 12 bits = 1536 x32
-	 for( int addr = 512; addr < 2048 ; addr+=3 ) { //
-		int base = (addr-512)*8/3;
-		// 1st 
-		fprintf(mif_fp, "%03x : ", addr);
-		for( int ii = 3; ii >=0; ii-- )
-			fputc( ( color[(base+0)>>7][(base+0)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 7; ii >=0; ii-- )
-			fputc( (  text[(base+0)>>7][(base+0)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 3; ii >=0; ii-- )
-			fputc( ( color[(base+1)>>7][(base+1)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 7; ii >=0; ii-- )
-			fputc( (  text[(base+1)>>7][(base+1)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 3; ii >=0; ii-- )
-			fputc( ( color[(base+2)>>7][(base+2)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 7; ii >=4; ii-- )
-			fputc( (  text[(base+2)>>7][(base+2)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		fprintf(mif_fp, ";\n");
-
-		// 2nd 
-		fprintf(mif_fp, "%03x : ", addr+1);
-		for( int ii = 3; ii >=0; ii-- )
-			fputc( (  text[(base+2)>>7][(base+2)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 3; ii >=0; ii-- )
-			fputc( ( color[(base+3)>>7][(base+3)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 7; ii >=0; ii-- )
-			fputc( (  text[(base+3)>>7][(base+3)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 3; ii >=0; ii-- )
-			fputc( ( color[(base+4)>>7][(base+4)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 7; ii >=0; ii-- )
-			fputc( (  text[(base+4)>>7][(base+4)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 3; ii >=0; ii-- )
-			fputc( ( color[(base+5)>>7][(base+5)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-
-		fprintf(mif_fp, ";\n");
-
-		// 3rd 
-		fprintf(mif_fp, "%03x : ", addr+2);
-		for( int ii = 7; ii >=0; ii-- )
-			fputc( (  text[(base+5)>>7][(base+5)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 3; ii >=0; ii-- )
-			fputc( ( color[(base+6)>>7][(base+6)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 7; ii >=0; ii-- )
-			fputc( (  text[(base+6)>>7][(base+6)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 3; ii >=0; ii-- )
-			fputc( ( color[(base+7)>>7][(base+7)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-		for( int ii = 7; ii >=0; ii-- )
-			fputc( (  text[(base+7)>>7][(base+7)&127] & (1<<ii) ) ? '1' : '0', mif_fp );
-
-		fprintf(mif_fp, ";\n");
-	 }
-	 fprintf(mif_fp, "END\n" );
 	 fclose( mif_fp );
 	return( 0 );
 }
