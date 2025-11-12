@@ -15,6 +15,11 @@ Its is relatively low overhead, with the hdmi and overlay generation hightlighte
 
 For HDMI output I used the 4x 2.5V LDVS pairs on the DF52 connector wired up to a HDMI breakout connector board.
 
+![watermarking](litefury_watermark.jpg)
+
+The watermark.sh takes the current git commit id and inserts it into the text overlay rom in the lower right corner. So after checkout of any
+version I watermark it so I can easily associate revisions with the actual programmed fpga by just plug in an HDMI monitor.
+
 # orginial Nitefury readme below
 -------------------
 
