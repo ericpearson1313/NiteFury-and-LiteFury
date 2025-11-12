@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xF70650F48337BC17",
+      "boundary_crc": "0x2548611C34425346",
       "device": "xc7a100tfgg484-2L",
       "gen_directory": "../../../../project.gen/sources_1/bd/Top",
       "name": "Top",
@@ -53,7 +53,8 @@
       "const_true1": "",
       "CodeBlinker_3": "",
       "xlslice_D0": "",
-      "xlslice_D4_D2": ""
+      "xlslice_D4_D2": "",
+      "clk_wiz_0": ""
     },
     "interface_ports": {
       "DDR3": {
@@ -386,6 +387,100 @@
         "direction": "O",
         "left": "0",
         "right": "0"
+      },
+      "user_clk": {
+        "type": "clk",
+        "direction": "O",
+        "left": "0",
+        "right": "0",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "Top_util_ds_buf_0_IBUF_OUT",
+            "value_src": "default_prop"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "ip_prop"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          }
+        }
+      },
+      "hdmi_clk": {
+        "type": "clk",
+        "direction": "O",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "/clk_wiz_0_clk_out1",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "32000000",
+            "value_src": "ip_prop"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "ip_prop"
+          }
+        }
+      },
+      "hdmi_clk5": {
+        "type": "clk",
+        "direction": "O",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "/clk_wiz_0_clk_out1",
+            "value_src": "ip_prop"
+          },
+          "FREQ_HZ": {
+            "value": "160000000",
+            "value_src": "ip_prop"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "ip_prop"
+          }
+        }
+      },
+      "hdmi_reset": {
+        "type": "rst",
+        "direction": "O",
+        "parameters": {
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "POLARITY": {
+            "value": "ACTIVE_HIGH",
+            "value_src": "const_prop"
+          }
+        }
       }
     },
     "components": {
@@ -2323,6 +2418,100 @@
             "value": "3"
           }
         }
+      },
+      "clk_wiz_0": {
+        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
+        "ip_revision": "16",
+        "xci_name": "Top_clk_wiz_0_0",
+        "xci_path": "ip\\Top_clk_wiz_0_0\\Top_clk_wiz_0_0.xci",
+        "inst_hier_path": "clk_wiz_0",
+        "has_run_ip_tcl": "true",
+        "parameters": {
+          "CLKOUT1_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLKOUT1_JITTER": {
+            "value": "302.524"
+          },
+          "CLKOUT1_PHASE_ERROR": {
+            "value": "301.601"
+          },
+          "CLKOUT1_REQUESTED_OUT_FREQ": {
+            "value": "32"
+          },
+          "CLKOUT2_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLKOUT2_JITTER": {
+            "value": "235.916"
+          },
+          "CLKOUT2_PHASE_ERROR": {
+            "value": "301.601"
+          },
+          "CLKOUT2_REQUESTED_OUT_FREQ": {
+            "value": "160"
+          },
+          "CLKOUT2_USED": {
+            "value": "true"
+          },
+          "CLKOUT3_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLKOUT4_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLKOUT5_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLKOUT6_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLKOUT7_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLK_OUT1_PORT": {
+            "value": "hdmi_clk"
+          },
+          "CLK_OUT2_PORT": {
+            "value": "hdmi_clk5"
+          },
+          "FEEDBACK_SOURCE": {
+            "value": "FDBK_AUTO"
+          },
+          "MMCM_BANDWIDTH": {
+            "value": "OPTIMIZED"
+          },
+          "MMCM_CLKFBOUT_MULT_F": {
+            "value": "48"
+          },
+          "MMCM_CLKOUT0_DIVIDE_F": {
+            "value": "30"
+          },
+          "MMCM_CLKOUT1_DIVIDE": {
+            "value": "6"
+          },
+          "MMCM_COMPENSATION": {
+            "value": "ZHOLD"
+          },
+          "MMCM_DIVCLK_DIVIDE": {
+            "value": "5"
+          },
+          "NUM_OUT_CLKS": {
+            "value": "2"
+          },
+          "PRIMITIVE": {
+            "value": "PLL"
+          },
+          "PRIM_SOURCE": {
+            "value": "Single_ended_clock_capable_pin"
+          },
+          "SECONDARY_SOURCE": {
+            "value": "Single_ended_clock_capable_pin"
+          },
+          "USE_PHASE_ALIGNMENT": {
+            "value": "false"
+          }
+        }
       }
     },
     "interface_nets": {
@@ -2452,6 +2641,18 @@
           "real_spi_ss"
         ]
       },
+      "clk_wiz_0_hdmi_clk": {
+        "ports": [
+          "clk_wiz_0/hdmi_clk",
+          "hdmi_clk"
+        ]
+      },
+      "clk_wiz_0_hdmi_clk5": {
+        "ports": [
+          "clk_wiz_0/hdmi_clk5",
+          "hdmi_clk5"
+        ]
+      },
       "const_true1_dout": {
         "ports": [
           "const_true1/dout",
@@ -2467,13 +2668,16 @@
       "mig_7series_0_ui_clk": {
         "ports": [
           "mig_7series_0/ui_clk",
-          "axi_interconnect_1/M00_ACLK"
+          "axi_interconnect_1/M00_ACLK",
+          "clk_wiz_0/clk_in1"
         ]
       },
       "mig_7series_0_ui_clk_sync_rst": {
         "ports": [
           "mig_7series_0/ui_clk_sync_rst",
-          "util_vector_logic_0/Op1"
+          "util_vector_logic_0/Op1",
+          "clk_wiz_0/reset",
+          "hdmi_reset"
         ]
       },
       "pci_reset_1": {
@@ -2485,7 +2689,8 @@
       "util_ds_buf_IBUF_OUT": {
         "ports": [
           "util_ds_buf/IBUF_OUT",
-          "xdma_0/sys_clk"
+          "xdma_0/sys_clk",
+          "user_clk"
         ]
       },
       "xadc_wiz_1_temp_out": {

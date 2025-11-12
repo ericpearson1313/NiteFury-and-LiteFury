@@ -1,0 +1,40 @@
+lspci
+lspci -nvv
+lspci 
+lspci -vv
+lspci -nvv
+
+lspci -d 10ee:7011 -vv
+
+ ls -alF /sys/bus/pci/devices/0001\:01\:00.0/
+ 
+ cat /sys/bus/pci/devices/0001\:01\:00.0/vendor
+ cat /sys/bus/pci/devices/0001\:01\:00.0/device
+ 
+ int fd = open("/sys/bus/pci/devices/0001:01:00.0/resource0", O_RDWR | O_SYNC);
+ 
+ 
+ ubuntu@ubuntu:~/test$ lspci -d 10ee:7011 -nvv
+0001:01:00.0 1200: 10ee:7011
+        Control: I/O- Mem- BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+        Interrupt: pin A routed to IRQ 255
+        Region 0: Memory at 1800000000 (64-bit, prefetchable) [disabled] [size=128K]
+        Region 2: Memory at 1800020000 (64-bit, prefetchable) [disabled] [size=64K]
+        Capabilities: <access denied>
+
+ int fd = open("/sys/bus/pci/devices/0001:01:00.0/resource0", O_RDWR | O_SYNC);
+ void* base_address = (void*)0x1800000000;
+ size_t size = 128 * 1024; // 128K
+ 
+ pcimem 
+ 
+ try setpci -s "your pcie device bus number" COMMAND=0x02 for example setpcie -s 01:00.0 COMMAND=0x02 
+ this will enable memory mapped transfers for your pcie device. In 4.8 kernel something is changes, so drivers does not enable mm transfers by default. You can add this line in rc.local script, so it will enable it at system startup.
+Hope it will help :)
+
+sudo lspci -d 10ee:7011 -nv
+sudo setpci -s 0001:01:00.0 COMMAND=0x02
+sudo ./pcimem /sys/bus/pci/devices/0001\:01\:00.0/resource0 0x2000 w*10   // read 10 words
+sudo ./pcimem /sys/bus/pci/devices/0001\:01\:00.0/resource0 0x2008 w 6	  // change from C to 6. Blink 1, M2 off
+ 
