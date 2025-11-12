@@ -13,6 +13,8 @@ Its is relatively low overhead, with the hdmi and overlay generation hightlighte
 
 ![dev_platform](litefury_hdmi.jpg)
 
+For HDMI output I used the 4x 2.5V LDVS pairs on the DF52 connector wired up to a HDMI breakout connector board.
+
 # orginial Nitefury readme below
 -------------------
 
