@@ -97,7 +97,7 @@ set_property IOSTANDARD LVDS_25 [get_ports {hdmi_d2_n}]
 
 # Input reset is resynchronized within FPGA design as necessary
 set_false_path -from [get_ports pci_reset]
-set_false_path -through [get_nets hdmi_reset} -to [get_clocks {hdmi_clk]}
+set_false_path -from [get_clocks -of_objects [get_pins Top_wrapper_i/Top_i/mig_7series_0/u_Top_mig_7series_0_0_mig/u_ddr3_infrastructure/gen_ui_extra_clocks.mmcm_i/CLKFBOUT]] -to [get_clocks -of_objects [get_pins Top_wrapper_i/Top_i/clk_wiz_0/inst/plle2_adv_inst/CLKOUT0]]
 
 
 ###############################################################################
